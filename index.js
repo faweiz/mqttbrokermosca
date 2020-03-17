@@ -39,7 +39,7 @@ server.on('ready', function() {
     console.log('Mosca is running');
 }); */
 
-
+/*
 const aedes = require('aedes')()
 const server = require('net').createServer(aedes.handle)
 const port = 1883
@@ -47,3 +47,12 @@ const port = 1883
 server.listen(port, function () {
   console.log('server started and listening on port ', port)
 })
+*/
+var http     = require('http')
+  , httpServ = http.createServer()
+  , mosca    = require('mosca')
+  , mqttServ = new mosca.Server({});
+
+mqttServ.attachHttpServer(httpServ);
+
+httpServ.listen(8080);
