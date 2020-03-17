@@ -1,8 +1,12 @@
-var http = require('http'),
-    httpServ = http.createServer(),
-    mosca = require('mosca'),
-    mqttServ = new mosca.Server({});
+var mosca = require('mosca');
+var mqttServer = new mosca.Server({
+    port:1883;
+});
 
-mqttServ.attachHttpServer(httpServ);
+mqttServer.on("clientConnected", function(client){
+    console.log("client connected", client.id);
+});
 
-httpServ.listen(process.env.PORT || 8080);
+mqttServer.on('ready', function(){
+    console.log("MQTT is running...");
+});
