@@ -2,14 +2,16 @@
   "name": "mqttbrokermosca",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "mqtt-broker.js",
   "scripts": {
+    "start": "node mqtt-broker.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "aedes": "^0.40.1"
+    "express": "^4.17.1",
+    "mosca": "^2.8.3"
   }
 }
