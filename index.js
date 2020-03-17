@@ -13,10 +13,11 @@ var pubsubsettings = {
 };
 
 var server = new mosca.Server({
-    backend: pubsubsettings,
+ //   backend: pubsubsettings,
     persistence: {
-        factory: mosca.persistence.Mongo,
-        url: 'mongodb://tonyz:abc123456789@ds253871.mlab.com:53871/mqttbrokermosca'
+		factory: mosca.persistence.Memory
+      //  factory: mosca.persistence.Mongo,
+ //       url: 'mongodb://tonyz:abc123456789@ds253871.mlab.com:53871/mqttbrokermosca'
     }
 }, function() {
     server.attachHttpServer(app);
