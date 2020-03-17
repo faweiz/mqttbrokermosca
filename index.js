@@ -16,7 +16,7 @@ var server = new mosca.Server({
     backend: pubsubsettings,
     persistence: {
         factory: mosca.persistence.Mongo,
-        url: 'mongodb://tonyz:123456789@ds051655.mlab.com:51655/apiai-faweizfacebook' || 'mongodb://localhost:27017/app'
+        url: 'mongodb://tonyz:abc123456789@ds253871.mlab.com:53871/mqttbrokermosca' || 'mongodb://localhost:27017/app'
     }
 }, function() {
     server.attachHttpServer(app);
