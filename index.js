@@ -1,4 +1,16 @@
-var express = require('express');
+/* var mosca = require('mosca');
+var settings = {
+		port:1883
+		}
+
+var server = new mosca.Server(settings);
+
+server.on('ready', function(){
+console.log("ready");
+}); */
+
+
+/* var express = require('express');
 var http = require('http');
 var mosca = require('mosca');
 
@@ -25,4 +37,13 @@ var server = new mosca.Server({
 
 server.on('ready', function() {
     console.log('Mosca is running');
-});
+}); */
+
+
+const aedes = require('aedes')()
+const server = require('net').createServer(aedes.handle)
+const port = 1883
+
+server.listen(port, function () {
+  console.log('server started and listening on port ', port)
+})
