@@ -1,58 +1,44 @@
-/* var mosca = require('mosca');
-var settings = {
-		port:1883
-		}
+var http     = require('http');
+var httpServ = http.createServer(function (req, res) {
+		res.writeHead(200, {'Content-Type': 'text/plain'});
+		res.write('Hello World! This is MQTT Broker over websocket');
+		res.end();
+	}).listen(8080);
+var mosca    = require('mosca');
+var mqttServ = new mosca.Server({});
 
-var server = new mosca.Server(settings);
-
-server.on('ready', function(){
-console.log("ready");
-}); */
-
-
-/* var express = require('express');
-var http = require('http');
-var mosca = require('mosca');
-
-var app = express();
-var server = http.createServer(app);
-
-var pubsubsettings = {
-    type: 'mongo',
-    url: 'mongodb://tonyz:abc123456789@ds253871.mlab.com:53871/mqttbrokermosca',
-    pubsubCollection: 'mqtt',
-    mongo: {}
-};
-
-var server = new mosca.Server({
- //   backend: pubsubsettings,
-    persistence: {
-		factory: mosca.persistence.Memory
-      //  factory: mosca.persistence.Mongo,
- //       url: 'mongodb://tonyz:abc123456789@ds253871.mlab.com:53871/mqttbrokermosca'
-    }
-}, function() {
-    server.attachHttpServer(app);
-});
-
-server.on('ready', function() {
-    console.log('Mosca is running');
-}); */
-
-/*
-const aedes = require('aedes')()
-const server = require('net').createServer(aedes.handle)
-const port = 1883
-
-server.listen(port, function () {
-  console.log('server started and listening on port ', port)
-})
-*/
-var http     = require('http')
-  , httpServ = http.createServer()
-  , mosca    = require('mosca')
-  , mqttServ = new mosca.Server({});
-
+// attach http server to mosca
 mqttServ.attachHttpServer(httpServ);
 
-httpServ.listen(8080);
+
+// fired when the mqtt server is ready
+mqttServ.on('ready', setup);
+function setup() {
+  console.log('Mosca server is up and running...');
+}
+
+// fired when a client is connected
+mqttServ.on('clientConnected', function(client) {
+    console.log('Client Connected: ', client.id);
+});
+/*
+// Sending data from mosca to clients
+var message = {
+  topic: '/hello/client',
+  payload: 'abcde', // or a Buffer
+  qos: 0, // 0, 1, or 2
+  retain: false // or true
+};
+mqttServ.publish(message, function() {
+  console.log('done!');
+});
+*/
+// fired when a message is received
+mqttServ.on('published', function(packet, client) {
+  console.log('Published: ', packet.payload);
+});
+
+// fired when a client disconnects
+mqttServ.on('clientDisconnected', function(client) {
+	console.log('Client Disconnected:', client.id);
+});
